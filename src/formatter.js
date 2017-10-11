@@ -6,20 +6,16 @@ function printDimension(context, name) {
 	return name;
 }
 
-/** private */
-function printValue(value) {
-	if (typeof value === 'number') return value;
-	return `"${value}"`
-}
+
 
 /** private */
-function printOperator(operator, value) {
+function toOperator(operator, value) {
 	switch(operator) {
-		case '>'  : return `{ $gt: ${printValue(value)} }`;
-		case '<'  : return `{ $lt: ${printValue(value)} }`;
-		case '>=' : return `{ $gte: ${printValue(value)} }`;
-		case '<=' : return `{ $lte: ${printValue(value)} }`;
-		case '='  : return printValue(value);
+		case '>'  : return { $gt: value };
+		case '<'  : return { $lt: value };
+		case '>=' : return { $gte: value };
+		case '<=' : return { $lte: value };
+		case '='  : return value;
 	}	
 }
 
@@ -31,7 +27,7 @@ class Formatter {
 	* @returns {string} A string representing the chain of and operations.
 	*/
     andExpr(...ands) { 
-    	return "$and: [" + ands.map(and=>`{ ${and} }`).join(', ') + "]"
+    	return { $and: ands }
     }
 
 	/** Create an or expression 
@@ -39,7 +35,7 @@ class Formatter {
 	* @returns {string} A string representing the chain of or operations.
 	*/
     orExpr(...ors) { 
-    	return "$or: [" + ors.map(or=>`{ ${or} }`).join(', ') + "]"
+    	return { $or: ors }
     }
 
 	/** Create an operation expression 
@@ -51,9 +47,9 @@ class Formatter {
 	*/
     operExpr(dimension, operator, value, context) {
     	if (operator === 'contains')
-    		return dimension + ": { $elemMatch: { " + value + " } }"
+    		return { [dimension] : { $elemMatch: value } };
     	else	
-    		return '"' + printDimension(context,dimension) + '": '  + printOperator(operator, value); 
+    		return { [dimension] : toOperator(operator, value) }; 
     }
 
     /** Get a formatter instance */

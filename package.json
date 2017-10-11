@@ -1,6 +1,6 @@
 {
   "name": "mongo-query-format",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Formatter for building mongodb queries from abstract-query Query objects",
   "main": "src/formatter.js",
   "scripts": {
