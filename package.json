@@ -1,10 +1,10 @@
 {
   "name": "mongo-query-format",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Formatter for building mongodb queries from abstract-query Query objects",
   "main": "src/formatter.js",
   "scripts": {
-    "test": "mocha",
+    "test": "DEBUG=mongo-query-format~tests mocha",
     "docs": "jsdoc -c ./jsdoc.conf -d build/docs -t ./node_modules/ink-docstrap/template README.md src/*.js",
     "lint": "./node_modules/.bin/eslint --format unix *.js; exit 0"
   },
@@ -31,6 +31,7 @@
     "mocha": "^3.5.0"
   },
   "dependencies": {
-    "abstract-query": "^0.1.9"
+    "abstract-query": "^0.1.12",
+    "iterator-plumbing": "^1.0.7"
   }
 }
